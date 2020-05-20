@@ -68,7 +68,7 @@ export default class App extends Component {
       if (ss < 10) {
         ss = `0${ss}`;
       }
-      let textDiff = `${hh} ЧАС ${mm} МИНУТ ${ss} СЕКУНД`;
+      let textDiff = `ЧАСОВ: ${hh} МИНУТ: ${mm}  СЕКУНД: ${ss}`;
       that.setState({
         timeNow: timeNow,
         diff: textDiff
@@ -191,7 +191,7 @@ export default class App extends Component {
       <div>
         <Sketch setup={this.setup} draw={this.draw} />
         <h1 className="time">
-          ДО РАССВЕТА ОСТАЛОСЬ: <br />
+          ДО РАССВЕТА ОСТАЛОСЬ <br />
           {this.state.diff}
         </h1>
         <h1 className="moto">РАССВЕТ НЕ ЗА ГОРАМИ</h1>
