@@ -168,13 +168,13 @@ export default class App extends Component {
     });
 
     if (this.r <= biggestSide * 2.2 && this.scale == "up") {
-      this.r += offset.y / 15;
+      this.r += offset.y / 5;
       // this.y -= offset.y / 9;
     } else if (this.r >= biggestSide * 2.2 && this.scale == "up") {
       this.scale = "down";
     } else if (this.r >= 0 && this.y <= height * 2.3 && this.scale == "down") {
-      this.r -= offset.y / 50;
-      this.y += offset.y / 20;
+      this.r -= offset.y / 5;
+      this.y += offset.y / 5;
     } else if (this.y >= height * 2.3 && this.scale == "down") {
       this.r = 0;
       this.y = window.innerHeight;
