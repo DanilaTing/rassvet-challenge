@@ -88,6 +88,7 @@ export default class App extends Component {
       if ("onwheel" in document) {
         // IE9+, FF17+, Ch31+
         window.addEventListener("wheel", this.onWheel);
+        window.addEventListener("touchmove", this.onWheel);
       } else if ("onmousewheel" in document) {
         // устаревший вариант события
         window.addEventListener("mousewheel", this.onWheel);
