@@ -127,14 +127,16 @@ export default class App extends Component {
       scrollBadgeVisible: false
     });
     e = e || window.event;
-    var delta = e.wheelDelta;
+    var delta = e.deltaY || e.detail || e.wheelDelta;
 
     if (this.r <= biggestSide * 2.2 && this.scale == "up") {
+      // console.log("up");
       this.r += delta / 5;
       // this.y -= delta / 9;
     } else if (this.r >= biggestSide * 2.2 && this.scale == "up") {
       this.scale = "down";
     } else if (this.r >= 0 && this.y <= height * 2.3 && this.scale == "down") {
+      // console.log("down");
       this.r -= delta / 5;
       this.y += delta / 5;
     } else if (this.y >= height * 2.3 && this.scale == "down") {
@@ -142,6 +144,8 @@ export default class App extends Component {
       this.y = window.innerHeight;
       this.scale = "up";
     }
+
+    // console.log(this.r, biggestSide);
   }
 
   touchStart(e) {
@@ -173,8 +177,8 @@ export default class App extends Component {
     } else if (this.r >= biggestSide * 2.2 && this.scale == "up") {
       this.scale = "down";
     } else if (this.r >= 0 && this.y <= height * 2.3 && this.scale == "down") {
-      this.r -= offset.y / 5;
-      this.y += offset.y / 5;
+      this.r -= offset.y / 10;
+      this.y += offset.y / 10;
     } else if (this.y >= height * 2.3 && this.scale == "down") {
       this.r = 0;
       this.y = window.innerHeight;
