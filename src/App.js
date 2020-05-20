@@ -9,6 +9,7 @@ export default class App extends Component {
   y = window.innerHeight;
   r = 0;
   scale = "up";
+  start = { x: 0, y: 0 };
 
   constructor() {
     super();
@@ -19,6 +20,8 @@ export default class App extends Component {
       diff: ""
     };
     this.onWheel = this.onWheel.bind(this);
+    this.touchStart = this.touchStart.bind(this);
+    this.touchMove = this.touchMove.bind(this);
   }
 
   componentDidMount() {
@@ -88,7 +91,8 @@ export default class App extends Component {
       if ("onwheel" in document) {
         // IE9+, FF17+, Ch31+
         window.addEventListener("wheel", this.onWheel);
-        window.addEventListener("touchmove", this.onWheel);
+        window.addEventListener("touchstart", this.touchStart, false);
+        window.addEventListener("touchmove", this.touchMove, false);
       } else if ("onmousewheel" in document) {
         // устаревший вариант события
         window.addEventListener("mousewheel", this.onWheel);
@@ -100,6 +104,14 @@ export default class App extends Component {
       // IE8-
       window.attachEvent("onmousewheel", this.onWheel);
     }
+
+    // window.onwheel = this.onWheel;
+
+    // if (window.addEventListener) {
+    //   window.addEventListener("touchmove", function() {
+    //     window.scroll;
+    //   });
+    // }
   };
 
   onWheel(e) {
@@ -115,7 +127,8 @@ export default class App extends Component {
       scrollBadgeVisible: false
     });
     e = e || window.event;
-    var delta = e.deltaY || e.detail || e.wheelDelta;
+    var delta = e.wheelDelta;
+
     if (this.r <= biggestSide * 2.2 && this.scale == "up") {
       this.r += delta / 5;
       // this.y -= delta / 9;
@@ -125,7 +138,44 @@ export default class App extends Component {
       this.r -= delta / 5;
       this.y += delta / 5;
     } else if (this.y >= height * 2.3 && this.scale == "down") {
-      console.log("THIS");
+      this.r = 0;
+      this.y = window.innerHeight;
+      this.scale = "up";
+    }
+  }
+
+  touchStart(e) {
+    this.start.x = e.touches[0].pageX;
+    this.start.y = e.touches[0].pageY;
+  }
+
+  touchMove(e) {
+    let offset = {};
+
+    offset.x = this.start.x - e.touches[0].pageX;
+    offset.y = this.start.y - e.touches[0].pageY;
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let biggestSide = "";
+    if (width > height) {
+      biggestSide = width;
+    } else {
+      biggestSide = height;
+    }
+    this.setState({
+      scrollBadgeVisible: false
+    });
+
+    if (this.r <= biggestSide * 2.2 && this.scale == "up") {
+      this.r += offset.y / 25;
+      // this.y -= offset.y / 9;
+    } else if (this.r >= biggestSide * 2.2 && this.scale == "up") {
+      this.scale = "down";
+    } else if (this.r >= 0 && this.y <= height * 2.3 && this.scale == "down") {
+      this.r -= offset.y / 100;
+      this.y += offset.y / 40;
+    } else if (this.y >= height * 2.3 && this.scale == "down") {
       this.r = 0;
       this.y = window.innerHeight;
       this.scale = "up";
