@@ -68,7 +68,7 @@ export default class App extends Component {
       if (ss < 10) {
         ss = `0${ss}`;
       }
-      let textDiff = `${hh} ЧАСА ${mm} МИНУТ ${ss} СЕКУНД`;
+      let textDiff = `${hh} ЧАС ${mm} МИНУТ ${ss} СЕКУНД`;
       that.setState({
         timeNow: timeNow,
         diff: textDiff
